@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}
+.nav-bar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    background: #222;
+}
+
+.nav-title {
+    color: white;
+    margin: 0;
+    font-size: 20px;
+}
+
+.nav-btn {
+    display: inline-block;
+    margin: 20px auto; 
+    padding: 8px 14px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.table-wrapper {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px;
+}
+
+.table-wrapper thead {
+    background-color: #333;
+    color: white;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.table-wrapper tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.table-btn {
+    padding: 6px 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.table-btn:hover {
+    background: #0056b3;
+}
+
+
+.form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.form-container h1 {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.form-container input[type="text"],
+.form-container textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-container input[type="text"]:focus,
+.form-container textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+.form-container textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-container button {
+    padding: 12px 24px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 10px;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+
+.form-container button:hover {
+    background: #0056b3;
+}
+
+.form-container a button {
+    background: #6c757d;
+}
+
+.form-container a button:hover {
+    background: #545b62;
+}
