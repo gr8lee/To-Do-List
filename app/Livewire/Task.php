@@ -10,76 +10,46 @@ use Livewire\Attributes\Title;
 #[Layout('layouts.custom')]
 class Task extends Component
 {
-    public $name;
+        public $name;
     public $description;
+    public $action;
     public $tasks = [];
+    public $taskId;
+    // To track which task is being edited
+    public $editingId = null;
 
-    public $task;
-
-
-    protected $rules = [
-        'name' => 'required|min:3',
-        'description' => 'nullable|min:3',
-    ];
-     // ✅ This is your store function
-
-
-    public function mount()
+ 
+    public function render()
     {
-        $this->loadTasks();
+        return view('livewire.home');
     }
+       public function edit($id)
+{
 
-    public function loadTasks()
-    {
-        $this->tasks = \App\Models\Task::latest()->get();
-    }
+$task = \App\Models\Task::findOrFail($id);
+$this->editingId = $id;
+$this->name = $task->name;  
+$this->description = $task->description;
 
-    public function saveTask()
-    {
-        \App\Models\Task::create([
-            'name' => $this->name,
-            'description' => $this->description,
-        ]);
+    // Optional: store the task ID if needed
+    $this->taskId = $id;
 
-        $this->reset(['name', 'description']);
+    // Use Livewire redirect
+    $this->redirect('home'); // simple full URL works best
+}
 
-        $this->loadTasks();
-    }
-
-    
-
-        public function store()
+ public function update($id)
     {
         $this->validate();
 
-        \App\Models\Task::create([
+        $task = \App\Models\Task::findOrFail($this->editingId);
+        $task->update([
             'name' => $this->name,
             'description' => $this->description,
+            
         ]);
 
-        $this->reset(['name', 'description']);
-        $this->loadTasks(); // refresh list
-    }
-
-    public function edit($id)
-    {
-        // dd(123);
-        $this->task = \App\Models\Task::findOrFail($id);
-        $this->name = $this->task->name;
-        $this->description = $this->task->description;
-    }
-
-    public function update()
-    {
-        $this->validate();
-
-      
-        $this->task->update([
-            'name' => $this->name,
-            'description' => $this->description,
-        ]);
-
-        $this->reset(['name', 'description']);
+        $this->reset(['name', 'description', 'editingId','showModal']);
         $this->loadTasks(); // refresh list
     }
     public function destroy($id)
@@ -89,10 +59,15 @@ class Task extends Component
 
         $this->loadTasks(); // refresh list
     }   
-    public function render()
+    
+public function store()
     {
-        return view('livewire.task');
-    }
+        \App\Models\Task::create([
+            'name' => $this->name,
+            'description' => $this->description,
+        ]);
+        $this->reset(['name', 'description','editingId','showModal']);
+    $this->loadTasks(); // refresh list
 }
 
-
+}

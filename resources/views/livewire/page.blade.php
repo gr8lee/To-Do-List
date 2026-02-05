@@ -13,10 +13,10 @@
             @error('description') <span class="error">{{ $message }}</span> @enderror
         </div>
 
-        @if($tasks->isEmpty())
-        <button type="submit">Post Task</button>
-        @else
-        <button type="submit">Update Task</button>
-        @endif
+      
+        <button type="submit">Add Task</button>
+    
+       
+       
     </form>
 </div>

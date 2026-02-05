@@ -36,8 +36,7 @@ class Page extends Component
     $task = Task::findOrFail($id);
     $this->taskId = $task->id;
 
-    // Redirect to your page view
-    return redirect()->route('livewire.page'); 
+ 
 }
 
         public function store()

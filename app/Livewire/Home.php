@@ -14,39 +14,96 @@ use Livewire\Component;
 #[Layout('layouts.custom')]
 class Home extends Component
 {
-     public $name;
+
+  public $name;
     public $description;
-    public $action;
     public $tasks = [];
-    public $taskId;
 
- 
-    public function render()
+    public $showModal = false;
+ // To track which task is being edited
+    public $editingId = null;
+    public $task;
+
+
+    protected $rules = [
+        'name' => 'required|min:3',
+        'description' => 'nullable|min:3',
+    ];
+     // ✅ This is your store function
+
+     public function toggleModal()
     {
-        return view('livewire.home');
+        $this->showModal = !$this->showModal;
     }
-       public function edit($id)
-{
-    // Optional: store the task ID if needed
-    $this->taskId = $id;
 
-    // Use Livewire redirect
-    $this->redirect('/page'); // simple full URL works best
-}
 
- public function update($id)
+    public function mount()
+    {
+        $this->loadTasks();
+    }
+
+    public function loadTasks()
+    {
+        $this->tasks = \App\Models\Task::latest()->get();
+    }
+
+    public function saveTask()
+    {
+        \App\Models\Task::create([
+            'name' => $this->name,
+            'description' => $this->description,
+        ]);
+
+        $this->reset(['name', 'description']);
+
+        $this->loadTasks();
+    }
+
+    
+
+        public function store()
     {
         $this->validate();
 
-        $task = \App\Models\Task::findOrFail($id);
+         \App\Models\Task::create([
+            'name' => $this->name,
+            'description' => $this->description,
+        ]);
+        $this->reset(['name', 'description','editingId','showModal']);
+    $this->loadTasks(); // refresh list
+
+        $this->toggleModal(); // close modal after saving
+    }
+
+    public function edit($id)
+    {
+        // dd(123);
+      $task = \App\Models\Task::findOrFail($id);
+$this->editingId = $id;
+$this->name = $task->name;  
+$this->description = $task->description;
+
+    // Optional: store the task ID if needed
+  
+$this->showModal = true;
+    }
+
+    public function update()
+    {
+        $this->validate();
+
+      $this->validate();
+
+        $task = \App\Models\Task::findOrFail($this->editingId);
         $task->update([
             'name' => $this->name,
             'description' => $this->description,
-            'action' => $this->action,
+            
         ]);
 
-        $this->reset(['name', 'description', 'action']);
+        $this->reset(['name', 'description', 'editingId','showModal']);
         $this->loadTasks(); // refresh list
+       
     }
     public function destroy($id)
     {
@@ -55,8 +112,20 @@ class Home extends Component
 
         $this->loadTasks(); // refresh list
     }   
-    
-}
 
 
- 
+
+    public function closeModal()
+    {
+        $this->showModal = false;
+    }
+
+
+    public function render()
+    {
+        return view('livewire.home');
+    }
+
+
+
+ }
